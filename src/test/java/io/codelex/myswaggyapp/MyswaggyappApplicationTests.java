@@ -64,8 +64,12 @@ public class MyswaggyappApplicationTests {
 	@Test
 	void testIfIncorrectDataThrowsError(){
 		//One value under 1922
-		Assertions.assertThrows(ResponseStatusException.class,()->appService.getHolidays("LV","1100"));
+		Assertions.assertThrows(ResponseStatusException.class,()->appService.getHolidays("LV","1100-2011"));
 		//End date before start date
 		Assertions.assertThrows(ResponseStatusException.class,()->appService.getHolidays("LV","1950-1930"));
+		//Only one year
+		Assertions.assertThrows(ResponseStatusException.class,()->appService.getHolidays("LV","1950"));
+		//More than 2 years
+		Assertions.assertThrows(ResponseStatusException.class,()->appService.getHolidays("LV","1950-1966-2000"));
 	}
 }

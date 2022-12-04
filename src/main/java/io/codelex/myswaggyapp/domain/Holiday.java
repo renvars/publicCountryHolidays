@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Objects;
 
 public class Holiday {
-    private String date;
+    private LocalDate date;
     private String localName;
     private String name;
     private String countryCode;
@@ -17,7 +17,7 @@ public class Holiday {
     private List<String> types;
 
     public Holiday(String date, String localName, String name, String countryCode, boolean fixed, boolean global, List<String> counties, int launchYear, List<String> types) {
-        this.date = date;
+        this.date = LocalDate.parse(date);
         this.localName = localName;
         this.name = name;
         this.countryCode = countryCode;
@@ -31,11 +31,11 @@ public class Holiday {
     public Holiday() {
     }
 
-    public String getDate() {
+    public LocalDate getDate() {
         return date;
     }
 
-    public void setDate(String date) {
+    public void setDate(LocalDate date) {
         this.date = date;
     }
 

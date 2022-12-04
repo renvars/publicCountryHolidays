@@ -13,6 +13,9 @@ import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+import java.util.stream.IntStream;
 
 @Service
 public class AppService {
@@ -22,41 +25,31 @@ public class AppService {
         this.webClient = WebClient.create("https://date.nager.at/api/v3/");
     }
 
-    public int getHolidays(String countryCode, String years) throws JsonProcessingException {
-        List<Integer> yearList = parseYears(years);
-        int result = 0;
-        for (Integer year:yearList) {
-            result += requestHolidays(countryCode,year).length;
-        }
-        return result;
+    public int getHolidays(String countryCode, String years) {
+        IntStream yearList = parseYears(years);
+        return yearList.map(now->requestHolidays(countryCode,now).length).reduce(0, Integer::sum);
     }
-    public Holiday[] requestHolidays(String countryCode, int year) throws JsonProcessingException {
-        Holiday[] responseJson = webClient.get()
+    public Holiday[] requestHolidays(String countryCode, int year) {
+        return webClient.get()
                 .uri("PublicHolidays/{year}/{countryCode}",year,countryCode)
                 .retrieve()
                 .bodyToMono(Holiday[].class)
                 .block();
-        return responseJson;
     }
 
-    public List<Integer> parseYears(String years){
-        List<Integer> result = new ArrayList<>();
-        if(years.contains("-")){
+    public IntStream parseYears(String years){
+        String pattern = "^\\d{4}-\\d{4}$";
+        if(years.matches(pattern)){
             String[] splitYears = years.split("-");
             int startYear = Integer.parseInt(splitYears[0]);
             int endYear = Integer.parseInt(splitYears[1]);
             if(startYear > endYear || startYear < 1922){
                 throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
             }
-            for (int i = startYear; i <= endYear ; i++) {
-                result.add(i);
-            }
+            return IntStream.range(startYear,endYear+1);
         }else{
-            if(years.length() > 4){
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
-            }
-            result.add(Integer.parseInt(years));
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
         }
-        return result;
+
     }
 }

@@ -18,7 +18,7 @@ public class AppController {
     }
 
     @GetMapping("/holidaycount/{countryCode}/{years}")
-    public int getHolidays(@PathVariable String countryCode , @PathVariable String years) throws JsonProcessingException {
+    public int getHolidays(@PathVariable String countryCode , @PathVariable String years) {
         return appService.getHolidays(countryCode,years);
     }
 }
