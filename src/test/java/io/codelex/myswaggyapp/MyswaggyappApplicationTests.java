@@ -6,9 +6,6 @@ import io.codelex.myswaggyapp.domain.Holiday;
 import okhttp3.mockwebserver.MockResponse;
 import okhttp3.mockwebserver.MockWebServer;
 import org.junit.jupiter.api.*;
-import org.junit.jupiter.api.extension.ExtendWith;
-import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.web.server.ResponseStatusException;
 
@@ -17,7 +14,6 @@ import java.io.File;
 import java.io.IOException;
 
 @SpringBootTest
-@ExtendWith(MockitoExtension.class)
 public class MyswaggyappApplicationTests {
 
     public static MockWebServer mockBackEnd;
