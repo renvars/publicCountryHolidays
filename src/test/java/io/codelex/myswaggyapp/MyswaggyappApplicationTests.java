@@ -21,8 +21,8 @@ import java.io.IOException;
 public class MyswaggyappApplicationTests {
 
     public static MockWebServer mockBackEnd;
-    @Autowired
-    public AppController appController;
+
+    public AppService appService;
 
     @BeforeAll
     static void setUp() throws IOException {
@@ -37,8 +37,9 @@ public class MyswaggyappApplicationTests {
 
     @BeforeEach
     void initialize() {
-        String baseUrl = String.format("http://localhost:8080",
+        String baseUrl = String.format("http://localhost:%s",
                 mockBackEnd.getPort());
+        appService = new AppService(baseUrl);
     }
 
 
@@ -51,20 +52,19 @@ public class MyswaggyappApplicationTests {
                 .setBody(objectMapper.writeValueAsString(mockHolidaysJSON))
                 .addHeader("Content-Type", "application/json"));
 
-        int actualResult = appController.getHolidays("LV", "2000-2000");
-        System.out.println("");
+        int actualResult = appService.getHolidays("LV", "2000-2000");
         Assertions.assertEquals(mockHolidaysJSON.length, actualResult);
     }
 
     @Test
     void testIfIncorrectDataThrowsError() {
         //One value under 1922
-        Assertions.assertThrows(ResponseStatusException.class, () -> appController.getHolidays("LV", "1100-2011"));
+        Assertions.assertThrows(ResponseStatusException.class, () -> appService.getHolidays("LV", "1100-2011"));
         //End date before start date
-        Assertions.assertThrows(ResponseStatusException.class, () -> appController.getHolidays("LV", "1950-1930"));
+        Assertions.assertThrows(ResponseStatusException.class, () -> appService.getHolidays("LV", "1950-1930"));
         //Only one year
-        Assertions.assertThrows(ResponseStatusException.class, () -> appController.getHolidays("LV", "1950"));
+        Assertions.assertThrows(ResponseStatusException.class, () -> appService.getHolidays("LV", "1950"));
         //More than 2 years
-        Assertions.assertThrows(ResponseStatusException.class, () -> appController.getHolidays("LV", "1950-1966-2000"));
+        Assertions.assertThrows(ResponseStatusException.class, () -> appService.getHolidays("LV", "1950-1966-2000"));
     }
 }

@@ -2,6 +2,7 @@ package io.codelex.myswaggyapp;
 
 
 import io.codelex.myswaggyapp.domain.Holiday;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.reactive.function.client.WebClient;
@@ -13,8 +14,8 @@ import java.util.stream.IntStream;
 public class AppService {
     private final WebClient webClient;
 
-    public AppService() {
-        this.webClient = WebClient.create("https://date.nager.at/api/v3/");
+    public AppService(@Value("${my.property}") String url) {
+        this.webClient = WebClient.create(url);
     }
 
     public int getHolidays(String countryCode, String years) {
