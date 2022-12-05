@@ -8,7 +8,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@RequestMapping(("/myswaggyapp"))
+@RequestMapping(path = "/myswaggyapp")
 public class AppController {
 
     private final AppService appService;
@@ -16,8 +16,7 @@ public class AppController {
     public AppController(AppService appService) {
         this.appService = appService;
     }
-
-    @GetMapping("/holidaycount/{countryCode}/{years}")
+    @GetMapping(path ="/holidaycount/{countryCode}/{years}")
     public int getHolidays(@PathVariable String countryCode , @PathVariable String years) {
         return appService.getHolidays(countryCode,years);
     }
