@@ -154,31 +154,5 @@
     "types": [
       "Public"
     ]
-  },
-  {
-    "date": "2000-12-26",
-    "localName": "Otrie Ziemassvētki",
-    "name": "St. Stephen's Day",
-    "countryCode": "LV",
-    "fixed": true,
-    "global": true,
-    "counties": null,
-    "launchYear": null,
-    "types": [
-      "Public"
-    ]
-  },
-  {
-    "date": "2000-12-31",
-    "localName": "Vecgada vakars",
-    "name": "New Year's Eve",
-    "countryCode": "LV",
-    "fixed": true,
-    "global": true,
-    "counties": null,
-    "launchYear": null,
-    "types": [
-      "Public"
-    ]
   }
 ]

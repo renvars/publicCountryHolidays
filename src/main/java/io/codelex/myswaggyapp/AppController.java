@@ -12,12 +12,14 @@ import org.springframework.web.bind.annotation.RestController;
 public class AppController {
 
     private final AppService appService;
+
     @Autowired
     public AppController(AppService appService) {
         this.appService = appService;
     }
-    @GetMapping(path ="/holidaycount/{countryCode}/{years}")
-    public int getHolidays(@PathVariable String countryCode , @PathVariable String years) {
-        return appService.getHolidays(countryCode,years);
+
+    @GetMapping(path = "/holidaycount/{countryCode}/{years}")
+    public int getHolidays(@PathVariable String countryCode, @PathVariable String years) {
+        return appService.getHolidays(countryCode, years);
     }
 }
